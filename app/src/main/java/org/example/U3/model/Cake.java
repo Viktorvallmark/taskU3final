@@ -1,6 +1,5 @@
 package org.example.U3.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -11,12 +10,13 @@ public class Cake implements IBakeryItem {
   private int numSlices;
   private double price;
   private String name;
-  private final short BASE_PRICE = 100;
 
   public Cake(int numSlices, String name, Fillings... fillings) {
 
     if (numSlices > 0) {
       this.numSlices = numSlices;
+    } else {
+      this.numSlices = 1;
     }
     Optional<String> optName = Optional.ofNullable(name);
     this.name = optName
@@ -24,13 +24,9 @@ public class Cake implements IBakeryItem {
         .filter(n -> !n.isEmpty())
         .filter(n -> !n.isBlank())
         .orElseThrow();
-    //
-    double sum = 0;
-    for (Fillings fill : fillings) {
-      sum += fill.getPrice();
-    }
+
     this.fillings = fillings;
-    this.price = (numSlices * fillings.length) + BASE_PRICE + sum;
+    this.price = calculatePrice(numSlices, fillings);
 
   }
 
@@ -61,7 +57,28 @@ public class Cake implements IBakeryItem {
 
   @Override
   public String toString(){
-    return "Slices: "+this.numSlices+" Name: "+this.name+" Fillings: "+ Arrays.toString(fillings) +" Price: "+price;
+    return "Slices: "+this.numSlices+"\n Name: "+this.name+"\n Fillings: "+ Arrays.toString(fillings) +"\n Price: "+price;
   }
 
+  /**
+   * @return 
+   */
+  @Override
+  public double calculatePrice(int numSlices, Fillings[] fillings) {
+
+    short BASE_PRICE = 100;
+    double sum = 0;
+    for (Fillings fill : fillings) {
+      sum += fill.getPrice();
+    }
+    return (numSlices * fillings.length) + BASE_PRICE+ sum;
+  }
+
+  /**
+   * @return 
+   */
+  @Override
+  public double calculatePrice() {
+    return 0;
+  }
 }

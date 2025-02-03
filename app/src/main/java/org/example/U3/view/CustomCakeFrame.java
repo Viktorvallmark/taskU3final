@@ -1,6 +1,5 @@
 package org.example.U3.view;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,18 +8,14 @@ import org.example.U3.controller.Controller;
 import org.example.U3.model.Fillings;
 
 public class CustomCakeFrame extends JFrame implements ActionListener {
-    private JPanel mainPanel;
 
     private Controller controller;
 
     public CustomCakeFrame(Controller controller) {
-        mainPanel = new JPanel(new GridLayout(0,2,2,2));
-        setSize(600, 400);
-        this.setContentPane(mainPanel);
+
         setupPanel();
-        this.setTitle("Create your own cake!");
+        setTitle("Create your own cake!");
         this.setVisible(true);
-        this.setResizable(false);
         this.controller = controller;
     }
 
@@ -39,6 +34,7 @@ public class CustomCakeFrame extends JFrame implements ActionListener {
         JTextField textName = new JTextField();
         JLabel labelName = new JLabel("Name your cake:");
         JLabel fillingLabel = new JLabel();
+
 
         JButton btnMakeCake = new JButton("Make cake");
         JButton btnReset = new JButton("Reset");
@@ -69,16 +65,16 @@ public class CustomCakeFrame extends JFrame implements ActionListener {
         });
 
 
-        mainPanel.add(labelSlices);
-        mainPanel.add(textSlices);
-        mainPanel.add(labelFillings);
-        mainPanel.add(fillingsJComboBox);
-        mainPanel.add(labelName);
-        mainPanel.add(textName);
-        mainPanel.add(btnMakeCake);
-        mainPanel.add(btnAddFillings);
-        mainPanel.add(btnReset);
-        mainPanel.add(fillingLabel);
+        this.add(labelSlices);
+        this.add(textSlices);
+        this.add(labelFillings);
+        this.add(fillingsJComboBox);
+        this.add(labelName);
+        this.add(textName);
+        this.add(btnMakeCake);
+        this.add(btnAddFillings);
+        this.add(btnReset);
+        this.add(fillingLabel);
 
 
     }
@@ -88,9 +84,5 @@ public class CustomCakeFrame extends JFrame implements ActionListener {
         /*
          * TODO: Skapa ny tårta här och spara den.
          */
-
-
-
-
     }
 }

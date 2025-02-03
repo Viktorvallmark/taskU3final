@@ -5,5 +5,8 @@ public interface IBakeryItem {
   String getName();
   void setName(String name);
   double getPrice();
+  double calculatePrice(int numSlices, Fillings[] fillings);
+  double calculatePrice();
+  String toString();
 
 }

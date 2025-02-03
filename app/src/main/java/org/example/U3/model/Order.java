@@ -4,28 +4,26 @@ import java.util.ArrayList;
 
 public class Order {
 
-   private ArrayList<AbstractBakeryItem> bakeryItems;
+   private ArrayList<IBakeryItem> bakeryItems;
+   private double cost;
 
 
-    private double cost;
-
-
-   public Order (ArrayList<AbstractBakeryItem> bakeryItems){
+   public Order (ArrayList<IBakeryItem> bakeryItems){
        if (!bakeryItems.isEmpty()){
           this.bakeryItems = bakeryItems;
        }
        double temp = 0;
-       for (AbstractBakeryItem bakeryItem : bakeryItems){
+       for (IBakeryItem bakeryItem : bakeryItems){
           temp += bakeryItem.getPrice();
        }
        this.cost = temp;
    }
 
-    public ArrayList<AbstractBakeryItem> getBakeryItems() {
+    public ArrayList<IBakeryItem> getBakeryItems() {
         return bakeryItems;
     }
 
-    public void setBakeryItems(ArrayList<AbstractBakeryItem> bakeryItems) {
+    public void setBakeryItems(ArrayList<IBakeryItem> bakeryItems) {
         this.bakeryItems = bakeryItems;
     }
 
@@ -38,5 +36,15 @@ public class Order {
         this.cost = cost;
     }
 
+    @Override
+    public String toString(){
+
+       StringBuilder temp = new StringBuilder();
+       for(IBakeryItem bakeryItem : bakeryItems){
+           temp.append(bakeryItem.toString()).append("\n");
+       }
+
+       return temp.toString();
+    }
 
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import org.example.U3.controller.Controller;
 
 public class MainFrame extends JFrame {
+
   private MainPanel mainPanel;
   private Controller controller;
 
@@ -119,7 +120,6 @@ public class MainFrame extends JFrame {
     mainPanel.getRightPanel().getBtnCreateOrder().setEnabled(true);
     mainPanel.getRightPanel().getBtnViewSelectedOrder().setEnabled(true);
   }
-
   /**
    * This method is called by other parts of the Gui when a button is pressed. The method
    * buttonPressed in class Controller is called and the type of pressed button is sent as an
