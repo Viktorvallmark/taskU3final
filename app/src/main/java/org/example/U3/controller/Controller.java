@@ -123,6 +123,9 @@ public class Controller {
   public void setCakes(ArrayList<Cake> cakes) {
     this.cakes = cakes;
   }
+  public void setOrders(ArrayList<Order> orders) {
+    this.orders = orders;
+  }
 
   public void addItemToOrder(int selectionIndex) {
     System.out.println(
@@ -242,6 +245,7 @@ public class Controller {
       JOptionPane.showMessageDialog(null, "Order placed!");
       Order order = new Order(currentOrder);
       orders.add(order);
+      setOrders(orders);
       view.clearRightPanel(); // Removes information from right panel in GUI
       view.clearLeftPanel();
       Arrays.fill(currentOrderArray, "");

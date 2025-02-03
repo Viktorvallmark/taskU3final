@@ -74,11 +74,4 @@ public class Cake implements IBakeryItem {
     return (numSlices * fillings.length) + BASE_PRICE+ sum;
   }
 
-  /**
-   * @return 
-   */
-  @Override
-  public double calculatePrice() {
-    return 0;
-  }
 }

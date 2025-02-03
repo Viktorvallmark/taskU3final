@@ -43,14 +43,6 @@ public class BakeryItem implements IBakeryItem{
         return 0;
     }
 
-    /**
-     * @return 
-     */
-    @Override
-    public double calculatePrice() {
-        return 0;
-    }
-
     @Override
     public String toString() {
         return  name + "\n" +
