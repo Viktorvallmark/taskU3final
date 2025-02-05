@@ -2,6 +2,11 @@ package org.example.U3.model;
 
 import java.util.ArrayList;
 
+/**
+ * @author Viktor Vallmark
+ * Order class.
+ * Keeps track of the orders in the program.
+ */
 public class Order {
 
    private ArrayList<IBakeryItem> bakeryItems;
@@ -10,7 +15,7 @@ public class Order {
 
    public Order (ArrayList<IBakeryItem> bakeryItems){
        if (!bakeryItems.isEmpty()){
-          this.bakeryItems = bakeryItems;
+          this.bakeryItems = new ArrayList<>(bakeryItems);
        }
        double temp = 0;
        for (IBakeryItem bakeryItem : bakeryItems){
@@ -36,6 +41,10 @@ public class Order {
         this.cost = cost;
     }
 
+    /**
+     * @author Viktor Vallmark
+     * @return string representation of an Order.
+     */
     @Override
     public String toString(){
 

@@ -6,9 +6,13 @@ import org.example.U3.view.ButtonType;
 import org.example.U3.view.MainFrame;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
+/**
+ * @author Viktor Vallmark
+ * Brain of the program. Handles the connection between the GUI and the entity classes.
+ * Updates the GUI when buttons are pressed.
+ */
 public class Controller {
 
   private MainFrame view;
@@ -18,12 +22,12 @@ public class Controller {
   private ArrayList<Cake> cakes;
   private ArrayList<Order> orders;
   private ArrayList<IBakeryItem> currentOrder;
-  private String[] cakeMenuString; // for test purposes only
-  private String[] perUnitItemMenuString; // for test purposes only
+  private String[] cakeMenuString;
+  private String[] perUnitItemMenuString;
   private BakeryItem[] perItemArray;
-  private String[] orderHistoryMenuString; // for test purposes only
-  private String[] currentOrderArray; // for test purposes only
-  private double costCurrentOrder = 0; // for test purposes only
+  private String[] orderHistoryMenuString;
+  private String[] currentOrderArray;
+  private double costCurrentOrder = 0;
 
   public Controller() {
     view = new MainFrame(1000, 500, this);
@@ -36,6 +40,11 @@ public class Controller {
     view.disableViewSelectedOrderButton();
   }
 
+  /**
+   * @author Viktor Vallmark
+   * Adds some starting values when the program is started. Creates both Cakes and BakeryItems.
+   * Populates the String[] that is used as a parameter for the different JPanels.
+   */
   private void loadStringCakeValues() {
     Fillings[] fillingsBanana = new Fillings[3];
     Fillings[] fillingsChocolate = new Fillings[3];
@@ -72,7 +81,7 @@ public class Controller {
     perItemArray[2] = bakeryItem2;
 
     for (int i = 0; i < perItemArray.length; i++) {
-      perUnitItemMenuString[i] = perItemArray[i].getName()+", "+perItemArray[i].getPrice();
+      perUnitItemMenuString[i] = perItemArray[i].getName()+", "+perItemArray[i].getPrice()+"\n";
     }
   }
 
@@ -112,8 +121,12 @@ public class Controller {
         break;
     }
   }
+
   public Cake makeCake(String name, int numSlices, Fillings... fillings){
    return new Cake(numSlices,name,fillings);
+  }
+  public Order makeOrder(ArrayList<IBakeryItem> list){
+    return new Order(list);
   }
 
   public ArrayList<Cake> getCakes() {
@@ -127,106 +140,125 @@ public class Controller {
     this.orders = orders;
   }
 
+  /**
+   * Adds the selected item to both currentOrder and the string representation of currentOrder.
+   * Updates the GUI.
+   * @author Viktor Vallmark
+   * @param selectionIndex - integer that represents where the user has clicked in the GUI.
+   */
   public void addItemToOrder(int selectionIndex) {
-    System.out.println(
-        "Index selection left panel: "
-            + selectionIndex); // for test purposes - remove when not needed
-    if (selectionIndex != -1) { // if something is selected in the left menu list
-      switch (currentLeftMenu) { // This might need to change depending on architecture
+    if (selectionIndex != -1) {
+      switch (currentLeftMenu) {
         case Cake:
-          currentOrder.add(cakes.get(selectionIndex)); // for test purposes - needs to be replaced with solution of finding
-          // chosen menu item matching architecture for model
+          currentOrder.add(cakes.get(selectionIndex));
           costCurrentOrder += cakes.get(selectionIndex).getPrice();
           break;
         case PerUnitItem:
           currentOrder.add(perItemArray[selectionIndex]);
           // for case above
           costCurrentOrder += perItemArray[selectionIndex].getPrice();
-          System.out.println(currentOrder.toString()+"\n");
+          System.out.println(currentOrder.toString());
           break;
       }
 
       for (int i = 0; i < currentOrder.size(); i++) {
         currentOrderArray[i] = currentOrder.get(i).toString();
       }
-
-      view.populateRightPanel(currentOrderArray); // update left panel with new item - this takes a shortcut in updating
-      // the entire information in the panel not just adds to the end
+      view.populateRightPanel(currentOrderArray);
       view.setTextCostLabelRightPanel(
           "Total cost of order: "
-              + costCurrentOrder); // set the text to show cost of current order
+              + costCurrentOrder);
     }
   }
 
-
+  /**
+   * Populates the left and right panels with information from orders.
+   * @author Viktor Vallmark
+   * @param selectionIndex - integer that represents where the user has clicked in the GUI.
+   */
   public void viewSelectedOrder(int selectionIndex) {
-    System.out.println(
-        "Index selection left panel: "
-            + selectionIndex); // for test purposes - remove when not needed
     if ((selectionIndex != -1) && currentLeftMenu == ButtonType.OrderHistory) {
       view.populateRightPanel(
-              new String[]{String.valueOf(orders.get(selectionIndex))}); // update left panel with order details - this takes a shortcut in
-      // updating the entire information in the panel not just adds to the
-      // end
+              new String[]{String.valueOf(orders.get(selectionIndex))});
       view.setTextCostLabelRightPanel(
           "Total cost of order: "
-              + String.valueOf(orders.get(selectionIndex).getCost())); // set the text to show cost of current order
+              + String.valueOf(orders.get(selectionIndex).getCost()));
 
-      currentOrder.clear();
     }
-
   }
 
+  /**
+   * @author Viktor Vallmark
+   * This is called when user presses the cake button in the gui.
+   * Populates the GUi with information.
+   */
   public void setToCakeMenu() {
     currentLeftMenu = ButtonType.Cake;
     for (int i = 0; i < cakes.size(); i++){
-      cakeMenuString[i] = cakes.get(i).toString()+"\n";
+      cakeMenuString[i] = cakes.get(i).toString();
     }
     view.clearLeftPanel();
     view.clearRightPanel();
     view.populateLeftPanel(cakeMenuString);
     view.populateRightPanel(
-        currentOrderArray); // update left panel with new item - this takes a shortcut in updating
-    // the entire information in the panel not just adds to the end
+        currentOrderArray);
     view.setTextCostLabelRightPanel(
         "Total cost of order: "
-            + String.valueOf(costCurrentOrder)); // set the text to show cost of current order
+            + String.valueOf(costCurrentOrder));
     view.enableAllButtons();
     view.disableCakeMenuButton();
     view.disableViewSelectedOrderButton();
   }
 
+  /**
+   * @author Viktor Vallmark
+   * Is called when PerUnitItem button is pressed by user.
+   * Populates the GUI with relevant information
+   */
   public void setToPerUnitItemMenu() {
     currentLeftMenu = ButtonType.PerUnitItem;
+    Arrays.fill(currentOrderArray, "");
     view.clearLeftPanel();
     view.clearRightPanel();
     view.populateLeftPanel(perUnitItemMenuString);
     view.populateRightPanel(
-        currentOrderArray); // update left panel with new item - this takes a shortcut in updating
-    // the entire information in the panel not just adds to the end
+        currentOrderArray);
     view.setTextCostLabelRightPanel(
         "Total cost of order: "
-            + String.valueOf(costCurrentOrder)); // set the text to show cost of current order
+            + String.valueOf(costCurrentOrder));
     view.enableAllButtons();
     view.disablePerUnitItemMenuButton();
     view.disableViewSelectedOrderButton();
   }
 
+  /**
+   * @author Viktor Vallmark
+   * Is called when OrderHistory button is pressed by user.
+   * Populates the GUI with relevant information
+   */
   public void setToOrderHistoryMenu() {
     currentLeftMenu = ButtonType.OrderHistory;
+    if(orders.isEmpty()){
+      JOptionPane.showMessageDialog(null, "No order history!");
+    }else {
 
-    for (int i = 0; i < orders.size(); i++) {
-      orderHistoryMenuString[i] = orders.get(i).toString();
+      for (int i = 0; i < orders.size(); i++) {
+        orderHistoryMenuString[i] = orders.get(i).toString();
+      }
+      view.clearRightPanel();
+      view.clearLeftPanel();
+      view.populateLeftPanel(orderHistoryMenuString);
+      view.enableAllButtons();
+      view.disableAddMenuButton();
+      view.disableOrderButton();
     }
 
-    view.clearRightPanel();
-    view.clearLeftPanel();
-    view.populateLeftPanel(orderHistoryMenuString);
-    view.enableAllButtons();
-    view.disableAddMenuButton();
-    view.disableOrderButton();
   }
 
+  /**
+   * @author Viktor Vallmark
+   * Not implemented due to time constraints
+   */
   public void setToAddNewCakeMenu() {
     // TODO: For grade VG: Add more code to save the new cake type and update menu,
 
@@ -237,23 +269,33 @@ public class Controller {
     view.disableNewCakeButton();
   }
 
+  /**
+   * @author Viktor Vallmark
+   * Is called when Order button is pressed by user.
+   * Populates the GUI with relevant information.
+   * If currentOrder contains IBakeryItems
+   * Saves currentOrder in the orders ArrayList and then removes items from currentOrder if they are non-null.
+   * Checks if currentOrder is empty, if it is then a JOptionPane is shown with a warning to the user.
+   */
   public void placeOrder() {
+    Order order;
     if(currentOrder.isEmpty()){
       JOptionPane.showMessageDialog(null,"Nothing to order!");
     }else {
 
       JOptionPane.showMessageDialog(null, "Order placed!");
-      Order order = new Order(currentOrder);
+      order = makeOrder(currentOrder);
       orders.add(order);
-      setOrders(orders);
-      view.clearRightPanel(); // Removes information from right panel in GUI
-      view.clearLeftPanel();
       Arrays.fill(currentOrderArray, "");
+      view.clearRightPanel();
+      view.clearLeftPanel();
       costCurrentOrder = 0;
       view.setTextCostLabelRightPanel("TOTAL COST: "+costCurrentOrder);
       view.enableAllButtons();
       view.disableAddMenuButton();
       view.disableViewSelectedOrderButton();
+
+      currentOrder.removeIf(Objects::nonNull);
     }
   }
 }

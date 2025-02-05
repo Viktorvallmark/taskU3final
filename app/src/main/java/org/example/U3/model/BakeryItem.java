@@ -13,21 +13,24 @@ public class BakeryItem implements IBakeryItem{
 
 
     /**
-     * @return 
+     * @return name of the bakery item
+     * @author Viktor Vallmark
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * @param name 
+     * @param name
+     * @author Viktor Vallmark
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @return 
+     * @return
+     * @author Viktor Vallmark
      */
     public double getPrice() {
         return this.price;
@@ -36,13 +39,19 @@ public class BakeryItem implements IBakeryItem{
     /**
      * @param numSlices 
      * @param fillings
-     * @return
+     * @return 0
+     * Never used in this class, but have to be implemented due to the interface
+     * @author Viktor Vallmark
      */
     @Override
     public double calculatePrice(int numSlices, Fillings[] fillings) {
         return 0;
     }
 
+    /**
+     * @author Viktor Vallmark
+     * @return a string representation of a BakeryItem
+     */
     @Override
     public String toString() {
         return  name + "\n" +
@@ -53,6 +62,7 @@ public class BakeryItem implements IBakeryItem{
     /**
      *
      * @param price
+     * @author Viktor Vallmark
      */
     public void setPrice(double price) {
         this.price = price;

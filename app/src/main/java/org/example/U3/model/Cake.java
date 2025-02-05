@@ -3,7 +3,12 @@ package org.example.U3.model;
 import java.util.Arrays;
 import java.util.Optional;
 
-/** Cake */
+/** Cake
+ *
+ * @author Viktor Vallmark
+ * Class that represents a Cake. Implements interface IBakeryItem to introduce polymorphism.
+ *
+ * */
 public class Cake implements IBakeryItem {
 
   private Fillings[] fillings;
@@ -55,13 +60,24 @@ public class Cake implements IBakeryItem {
     return fillings;
   }
 
+  /**
+   * @author Viktor Vallmark
+   * @return string representation of a Cake class
+   */
+
   @Override
   public String toString(){
-    return "Slices: "+this.numSlices+"\n Name: "+this.name+"\n Fillings: "+ Arrays.toString(fillings) +"\n Price: "+price;
+    return "Slices: "+this.numSlices
+            +"\n Name: "+this.name
+            +"\n Fillings: \n"
+            + Arrays.toString(fillings)
+            +"\n Price: "+price;
   }
 
   /**
-   * @return 
+   * @author Viktor Vallmark
+   * @return the price of a Cake as a double
+   * This function calculates the price of the Cake depending on what type of filling there's in the Cake
    */
   @Override
   public double calculatePrice(int numSlices, Fillings[] fillings) {

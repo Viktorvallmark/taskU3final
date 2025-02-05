@@ -11,7 +11,7 @@ public class MainFrame extends JFrame {
   public MainFrame(int width, int height, Controller controller) {
     super("Viktor's Bakery");
     this.controller = controller;
-    this.setResizable(false);
+    this.setResizable(true);
     this.setSize(width, height);
     this.mainPanel = new MainPanel(width, height, this);
     this.setContentPane(mainPanel);
